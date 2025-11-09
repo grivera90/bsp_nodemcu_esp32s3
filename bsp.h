@@ -50,6 +50,14 @@ extern "C" {
 
 bsp_ret_t bsp_init(void);
 bsp_ret_t bsp_gpio_expander_init(void);
+void  bsp_led_ok_set(bool value);
+void  bsp_led_error_set(bool value);
+void  bsp_led_alarm_set(bool value);
+void  bsp_rele_1_set(bool value);
+void  bsp_rele_2_set(bool value);
+bool  bsp_read_sw_1(void);
+bool  bsp_read_sw_2(void);
+bool  bsp_read_sw_3(void);
 bsp_ret_t bsp_keypad_scan_device_init(void);
 void bsp_set_keypad_event_cb(keypad_event_hdr_t keypad_event_cb);
 

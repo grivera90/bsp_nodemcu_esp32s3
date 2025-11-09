@@ -42,6 +42,15 @@
 #define I2C_MASTER_NUM 					(0)			/*!< I2C port number for master dev */
 #define I2C_MASTER_FREQ_HZ 				(400000)	/*!< I2C master clock frequency */
 
+#define BSP_LED_OK						(TCA9554_GPIO0)
+#define BSP_LED_ERROR					(TCA9554_GPIO1)
+#define BSP_LED_ALARM					(TCA9554_GPIO2)
+#define BSP_RELE_1						(TCA9554_GPIO3)
+#define BSP_RELE_2						(TCA9554_GPIO4)
+#define BSP_SW_1						(TCA9554_GPIO5)
+#define BSP_SW_2						(TCA9554_GPIO6)
+#define BSP_SW_3						(TCA9554_GPIO7)
+
 #define BSP_TCA8418_GPIO_RST			(36)
 #define BSP_TCA8418_GPIO_INT			(37)
 /******************************************************************************
@@ -328,12 +337,64 @@ bsp_ret_t bsp_gpio_expander_init(void)
 	ESP_LOGI(MODULE_NAME, "GPIO Expander init ok");
 	
 	/* All port as output */
-	tca9554_write_reg(&tca9554, TCA9554_CONFIG_REG, 0x00);
+	tca9554_write_reg(&tca9554, TCA9554_CONFIG_REG, 0b00000111);
 	
 	/* All port = 0 */
 	tca9554_write_reg(&tca9554, TCA9554_OUTPUT_REG, 0x00);	
 	
 	return BSP_OK;
+}
+
+void  bsp_led_ok_set(bool value)
+{
+	tca9554_gpio_write(&tca9554, BSP_LED_OK, value);
+}
+
+void  bsp_led_error_set(bool value)
+{
+	tca9554_gpio_write(&tca9554, BSP_LED_ERROR, value);
+}
+
+void  bsp_led_alarm_set(bool value)
+{
+	tca9554_gpio_write(&tca9554, BSP_LED_ALARM, value);	
+}
+
+void  bsp_rele_1_set(bool value)
+{
+	tca9554_gpio_write(&tca9554, BSP_RELE_1, value);
+}
+
+void  bsp_rele_2_set(bool value)
+{
+	tca9554_gpio_write(&tca9554, BSP_RELE_1, value);
+}
+
+bool  bsp_read_sw_1(void)
+{
+	bool value;
+	
+	tca9554_gpio_read(&tca9554, BSP_SW_1, &value);
+	
+	return value;	
+}
+
+bool  bsp_read_sw_2(void)
+{
+	bool value;
+	
+	tca9554_gpio_read(&tca9554, BSP_SW_2, &value);
+	
+	return value;		
+}
+
+bool  bsp_read_sw_3(void)
+{
+	bool value;
+	
+	tca9554_gpio_read(&tca9554, BSP_SW_3, &value);
+	
+	return value;		
 }
 
 bsp_ret_t bsp_keypad_scan_device_init(void)
